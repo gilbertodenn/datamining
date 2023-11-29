@@ -1,0 +1,16 @@
+.signup-container {
+    text-align: center;
+  }
+  
+  .signup-container input {
+    margin: 10px;
+    padding: 5px;
+    width: 200px;
+    
+  }
+  
+  .signup-container button {
+    margin-top: 10px;
+    padding: 5px 10px;
+
+  }
