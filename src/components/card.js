@@ -9,9 +9,14 @@ import React, { useEffect, useState } from "react";
 import "./cart";
 import Background from "../pictures/bg.jpeg";
 import NavScrollExample from "./nav";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 function Madrid() {
   const [products, setProducts] = useState([]);
+  const [ascProducts, setAscproducts] = useState([])
+  const [descProducts, setDescProducts] = useState([])
+  const [filterSort, setFilterSort] = useState(false);
 
   const images = [Background, Background, Background, Background, Background];
 
@@ -96,48 +101,86 @@ function Madrid() {
       LSTAT: 2.94,
       PRICE: 33.4,
     },
+    {
+      CRIM: 0.03237,
+      ZN: 0.0,
+      INDUS: 2.18,
+      CHAS: 0.0,
+      NOX: 0.458,
+      RM: 6.998,
+      AGE: 45.8,
+      DIS: 6.0622,
+      RAD: 3.0,
+      TAX: 222.0,
+      PTRATIO: 18.7,
+      B: 394.63,
+      LSTAT: 2.94,
+      PRICE: 33.4,
+    },
   ];
 
   useEffect(() => {
     setProducts(dataset);
   }, []);
 
+  const handleSortAsc = () => {
+
+  }
+
+  const handleSortDesc = () => {
+
+  }
+
   return (
-    <>
+    <div style={{ width: '100vw', height: "100vh" }}>
       <NavScrollExample />
-      <div
-        style={{
-          margin: "50px",
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
-        {products.map((item, index) => {
-          return (
-            <div key={index}>
-              <div className="budi">
-                <Card sx={{ width: 300, margin: "12px" }}>
-                  <div className="judul">
-                    <CardMedia sx={{ height: 300 }} image={images[index]} />
+      <div>
+        {filterSort ? (
+          <div onClick={() => { setFilterSort(!filterSort) }} style={{ margin: "16px", display: "flex", alignItems: "center", flexWrap: "wrap", cursor: "pointer" }}>
+            <Typography>Sort Price</Typography>
+            <ArrowDropUpIcon />
+          </div>
+        ) : (
+          <div onClick={() => { setFilterSort(!filterSort) }} style={{ margin: "16px", display: "flex", alignItems: "center", flexWrap: "wrap", cursor: "pointer" }}>
+            <Typography>Sort Price</Typography>
+            <ArrowDropDownIcon />
+          </div>
+        )}
+        {
+          !filterSort ? (
+            <div style={{ display: "flex", justifyContent: "space-between", margin: "16px", flexWrap: "wrap" }}>
+              {products.sort((a, b) => a.PRICE - b.PRICE).map((item, index) => {
+                return (
+                  <div style={{ height: 250 }}>
+                    <Card sx={{ width: 250 }}>
+                      <CardMedia sx={{ height: 140 }} image={images[index]} />
+                      <CardContent>
+                        <Typography>Price: ${item.PRICE * 10000}</Typography>
+                        <Typography>Room: {Math.round(item.RM)}</Typography>
+                      </CardContent>
+                    </Card>
                   </div>
+                )
+              })}
+            </div>
+          ) : (<div style={{ display: "flex", justifyContent: "space-between", margin: "16px", flexWrap: "wrap" }}>
+          {products.sort((a, b) => b.PRICE - a.PRICE).map((item, index) => {
+            return (
+              <div style={{ height: 250 }}>
+                <Card sx={{ width: 250 }}>
+                  <CardMedia sx={{ height: 140 }} image={images[index]} />
                   <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      ZN: {item.ZN}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.INDUS}
-                    </Typography>
-                    <p>{item.CHAS}</p>
+                    <Typography>Price: ${item.PRICE * 10000}</Typography>
+                    <Typography>Room: {Math.round(item.RM)}</Typography>
                   </CardContent>
-                  <CardActions></CardActions>
                 </Card>
               </div>
-            </div>
-          );
-        })}
+            )
+          })}
+        </div>)
+        }
       </div>
-    </>
+    </div>
   );
 }
 
